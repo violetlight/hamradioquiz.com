@@ -14,7 +14,7 @@ var users = require('./routes/users');
 
 var app = express();
 
-mongoose.connect('mongodb://localhost/radio');
+mongoose.connect(process.env.DB_URL);
 var store = new MongoDBStore({
   uri: process.env.DB_URL,
   collection: 'sessions'
