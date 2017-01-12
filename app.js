@@ -8,6 +8,37 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var mongoose = require('mongoose');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
+
+var User = require('./models/user');
+
+// Local strategy.. factor out into module
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({username: username}, function(err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, {message: 'User not found.'});
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, {message: 'password incorrect'});
+      }
+      return done(null, user);
+    });
+  }
+));
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -44,6 +75,10 @@ app.use(require('express-session')({
   resave: true,
   saveUninitialized: true,
 }));
+
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', index);
 app.use('/users', users);
