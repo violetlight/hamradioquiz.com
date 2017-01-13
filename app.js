@@ -22,10 +22,13 @@ passport.use(new LocalStrategy(
       if (!user) {
         return done(null, false, {message: 'User not found.'});
       }
-      if (!user.validPassword(password)) {
+
+      user.validPassword(password, function(err, isMatch) {
+        if (err) return done(err);
+        if (isMatch) return done(null, user);
         return done(null, false, {message: 'password incorrect'});
-      }
-      return done(null, user);
+      });
+
     });
   }
 ));
