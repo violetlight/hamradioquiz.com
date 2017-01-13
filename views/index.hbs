@@ -1,5 +1,9 @@
-<pre>{{session}}</pre>
-{{#each questions}}
-  <pre>{{this}}</pre>
-{{/each}}
+{{#if user}}
+  <h1>Hello, {{user.username}}</h1>
+{{/if}}
 
+<ul>
+  <li><a href="/users/login">Log In</a></li>
+  <li><a href="/users/sign-up">Sign Up</a></li>
+  <li><a href="/quiz/">Quiz</a></li>
+</ul>

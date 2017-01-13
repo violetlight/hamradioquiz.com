@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
   var ctx = { title: 'Express' };
   Question.find({}, function(err, questions) {
     ctx['questions'] = questions;
-    ctx['session'] = req.session;
+    ctx['user'] = req.user;
     res.render('index', ctx);
   });
 });
