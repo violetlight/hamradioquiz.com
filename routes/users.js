@@ -15,12 +15,16 @@ router.get('/login', function(req, res, next) {
   res.render('login');
 });
 
-router.post('/login', passport.authenticate('local',
-  {
-    successRedirect: '/',
-    failureRedirect: '/totalfailure'
-  }
-));
+router.post('/login', function(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
+    if (err) return next(err);
+    if (!user) return res.redirect('/users/login');
+    req.logIn(user, function(err) {
+      if (err) return next(err);
+      return res.redirect('/users/u/' + user.username);
+    });
+  })(req, res, next);
+});
 
 router.get('/sign-up', function(req, res, next) {
   res.render('signup');
@@ -35,6 +39,13 @@ router.post('/sign-up', function(req, res, next) {
     res.redirect('/');
   });
 });
+
+router.get('/u/:userName', function(req, res, next) {
+  var ctx = {user: req.user};
+  res.render('home', ctx);
+});
+
+
 
 module.exports = router;
 
