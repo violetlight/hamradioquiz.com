@@ -21,7 +21,8 @@ for question in data:
         'section': question['section'],
         'subSection': question['sub_section'],
         'fccSection': fcc_section,
-        'licenseType': question['license_type']
+        #'licenseType': question['license_type']
+        'licenseType': 'technician',
     }).inserted_id
 
     for letter, answer in question['answers'].iteritems():
