@@ -49,7 +49,10 @@ router.post('/', function(req, res, next) {
               if (answer.answeredCorrectly) memo += 1;
               cb(null, memo);
             }, function(err, result) {
-              return res.render('quiz/results', { numCorrect: result });
+              req.user.currentQuiz = null;
+              req.user.save(function(err) {
+                return res.render('quiz/results', { numCorrect: result });
+              });
             });
           });
         } else {
