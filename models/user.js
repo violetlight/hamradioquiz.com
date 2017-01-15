@@ -12,6 +12,7 @@ var User = new Schema({
   password: { type: String, required: true },
   email: { type: String, required: true },
   currentQuiz: { type: ObjectId, ref: 'Quiz' },
+  currentQuestion: { type: ObjectId, ref: 'Question' },
 });
 
 User.pre('save', function(next) {

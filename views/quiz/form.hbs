@@ -1,0 +1,10 @@
+<form action="/quiz" method="post">
+  <h1>{{question.body}}</h1>
+  {{#each answers}}
+    <div>
+      <input type="radio" name="selectedAnswer" value="{{this._id}}"/> {{this.body}}
+    </div>
+  {{/each}}
+  <input type="submit" value="Submit Answer"/>
+</form>
+
