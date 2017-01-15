@@ -43,21 +43,25 @@ router.post('/', function(req, res, next) {
         if (err) res.send(err);
         // If quiz is complete...
         if (currentQuiz.questions.length === 0) {
-          asyncReduce(currentQuiz.answered, 0, function(memo, answer, cb) {
-            if (answer.answeredCorrectly) memo += 1;
-            cb(null, memo);
-          }, function(err, result) {
-            return res.render('quiz/results', { numCorrect: result });
+          currentQuiz.inProgress = false;
+          currentQuiz.save(function() {
+            asyncReduce(currentQuiz.answered, 0, function(memo, answer, cb) {
+              if (answer.answeredCorrectly) memo += 1;
+              cb(null, memo);
+            }, function(err, result) {
+              return res.render('quiz/results', { numCorrect: result });
+            });
           });
-        };
+        } else {
         // update req.user.currentQuestion to req.user.currentQuiz.questions[0]
-        User.update({ _id: req.user._id }, {$set: { currentQuestion: currentQuiz.questions[0] }},function(err, user) {
-          console.log(isCorrect);
-          // find out what happens here when currentQuiz.questions[0] does not exist anymore
-          // if array is empty, redirect to /quiz/results to show results etc.
-          // otherwise redirect to '/quiz'
-          res.redirect('/quiz');
-        });
+          User.update({ _id: req.user._id }, {$set: { currentQuestion: currentQuiz.questions[0] }},function(err, user) {
+            console.log(isCorrect);
+            // find out what happens here when currentQuiz.questions[0] does not exist anymore
+            // if array is empty, redirect to /quiz/results to show results etc.
+            // otherwise redirect to '/quiz'
+            res.redirect('/quiz');
+          });
+        }
       });
     });
   });
