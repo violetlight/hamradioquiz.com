@@ -86,7 +86,7 @@ app.use(passport.session());
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/quiz', quiz);
+app.use('/quiz', passport.authenticate('local', { failureRedirect: '/users/login' }), quiz);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
