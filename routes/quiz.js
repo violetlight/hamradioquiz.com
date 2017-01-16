@@ -11,7 +11,7 @@ var User = require('../models/user');
 
 
 router.get('/', function(req, res, next) {
-  if (!req.user.currentQuiz) res.redirect('/quiz/start');
+  if (!req.user.currentQuiz) return res.redirect('/quiz/start');
   Question.findOne({ _id: req.user.currentQuestion }, function(err, question) {
     if (err) next(err);
     Answer.find({ question: question._id }, function(err, answers) {
@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
         question: question,
         answers: answers
       };
-      res.render('quiz/form', ctx);
+      return res.render('quiz/form', ctx);
     });
   });
 });
