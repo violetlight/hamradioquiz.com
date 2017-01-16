@@ -29,8 +29,6 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
   // pop req.user.currentQuestion from req.user.currentQuiz.questions
   Quiz.findOne({ _id: req.user.currentQuiz }, function(err, currentQuiz) {
-    console.log(currentQuiz.numRemaining);
-    console.log(currentQuiz.numTotal);
     currentQuiz.questions.remove(req.user.currentQuestion);
     Quiz.checkAnswer(req.user.currentQuestion, req.body.selectedAnswer, function(isCorrect) {
       // add req.user.currentQuestion to req.user.answeredQuestions, with chosen answer and result
