@@ -3,7 +3,11 @@
 {{/if}}
 
 <ul>
-  <li><a href="/users/login">Log In</a></li>
-  <li><a href="/users/sign-up">Sign Up</a></li>
+  {{#if user}}
+    <li><a href="/users/logout">Log Out</a></li>
+  {{else}}
+    <li><a href="/users/login">Log In</a></li>
+    <li><a href="/users/sign-up">Sign Up</a></li>
+  {{/if}}
   <li><a href="/quiz">Quiz</a></li>
 </ul>
