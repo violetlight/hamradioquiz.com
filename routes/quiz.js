@@ -11,7 +11,7 @@ var User = require('../models/user');
 
 
 router.get('/', function(req, res, next) {
-  if (!req.user.currentQuiz) return res.redirect('/quiz/start');
+  if (!req.user.currentQuiz) return res.render('quiz/start');
   Question.findOne({ _id: req.user.currentQuestion }, function(err, question) {
     if (err) next(err);
     Answer.find({ question: question._id }, function(err, answers) {
@@ -67,12 +67,6 @@ router.post('/', function(req, res, next) {
     });
   });
 });
-
-router.get('/start', function(req, res, next) {
-  var ctx = { title: 'Express' };
-  res.render('quiz/start', ctx);
-});
-
 
 router.post('/start', function(req, res, next) {
   Question.find({ licenseType: req.body.licenseType }).limit(5).exec(function(err, questions) {
