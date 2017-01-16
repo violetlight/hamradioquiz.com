@@ -14,6 +14,8 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var User = require('./models/user');
 
+var isAuthenticated = require('./middlewares/isAuthenticated');
+
 // Local strategy.. factor out into module
 passport.use(new LocalStrategy(
   function(username, password, done) {
@@ -86,7 +88,7 @@ app.use(passport.session());
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/quiz', passport.authenticate('local', { failureRedirect: '/users/login' }), quiz);
+app.use('/quiz', isAuthenticated, quiz);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

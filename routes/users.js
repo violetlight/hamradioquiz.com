@@ -41,7 +41,7 @@ router.post('/sign-up', function(req, res, next) {
     password: req.body.password,
     email: req.body.email
   }).save(function() {
-    res.redirect('/');
+    res.redirect('/users/login');
   });
 });
 
