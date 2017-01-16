@@ -4,6 +4,6 @@ module.exports = function(req, res, next) {
     return next();
   }
 
-  res.redirect('/');
+  res.redirect('/users/login');
 };
 
