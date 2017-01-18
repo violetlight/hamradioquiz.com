@@ -7,7 +7,7 @@ var passport = require('passport');
 var User = require('../models/user');
 
 router.get('/login', function(req, res, next) {
-  return res.render('login');
+  return res.render('users/login');
 });
 
 router.get('/logout', function(req, res, next) {
@@ -27,7 +27,7 @@ router.post('/login', function(req, res, next) {
 });
 
 router.get('/sign-up', function(req, res, next) {
-  return res.render('signup');
+  return res.render('users/signup');
 });
 
 router.post('/sign-up', function(req, res, next) {
@@ -42,7 +42,7 @@ router.post('/sign-up', function(req, res, next) {
 
 router.get('/u/:userName', function(req, res, next) {
   var ctx = {user: req.user};
-  return res.render('home', ctx);
+  return res.render('users/home', ctx);
 });
 
 
