@@ -13,7 +13,6 @@ form.on('submit', function(e) {
     url: '/quiz/checkAnswer',
     data: formData
   }).done(function(response, status) {
-    console.log(response);
     if (response.isCorrect) {
       $('#answer-choices').find('input').each(function(i) {
         if ($(this).val() === response.chosenAnswer) {
