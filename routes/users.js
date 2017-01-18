@@ -6,11 +6,6 @@ var passport = require('passport');
 
 var User = require('../models/user');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  return res.send('respond with a resource');
-});
-
 router.get('/login', function(req, res, next) {
   return res.render('login');
 });
