@@ -8,7 +8,7 @@ var Question = require('../models/question');
 router.get('/', function(req, res, next) {
   var ctx = { title: 'Express' };
   ctx['user'] = req.user;
-  res.render('index', ctx);
+  return res.render('index', ctx);
 });
 
 module.exports = router;

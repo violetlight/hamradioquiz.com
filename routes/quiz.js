@@ -44,7 +44,7 @@ router.post('/checkAnswer', function(req, res, next) {
           answeredCorrectly: isCorrect
         });
         currentQuiz.save(function(err, quiz) {
-          if (err) res.send(err);
+          if (err) return res.send(err);
           // If quiz is complete...
           if (currentQuiz.questions.length === 0) {
             currentQuiz.inProgress = false;
@@ -83,7 +83,7 @@ router.post('/start', function(req, res, next) {
       inProgress: true
     }).save(function(err, quiz) {
       User.update({ _id: req.user._id }, { $set: { currentQuiz: quiz._id, currentQuestion: quiz.questions[0]._id } }, function(err, user) {
-        res.redirect('/quiz');
+        return res.redirect('/quiz');
       });
     });
   });

@@ -8,11 +8,11 @@ var User = require('../models/user');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  return res.send('respond with a resource');
 });
 
 router.get('/login', function(req, res, next) {
-  res.render('login');
+  return res.render('login');
 });
 
 router.get('/logout', function(req, res, next) {
@@ -32,7 +32,7 @@ router.post('/login', function(req, res, next) {
 });
 
 router.get('/sign-up', function(req, res, next) {
-  res.render('signup');
+  return res.render('signup');
 });
 
 router.post('/sign-up', function(req, res, next) {
@@ -41,13 +41,13 @@ router.post('/sign-up', function(req, res, next) {
     password: req.body.password,
     email: req.body.email
   }).save(function() {
-    res.redirect('/users/login');
+    return res.redirect('/users/login');
   });
 });
 
 router.get('/u/:userName', function(req, res, next) {
   var ctx = {user: req.user};
-  res.render('home', ctx);
+  return res.render('home', ctx);
 });
 
 
