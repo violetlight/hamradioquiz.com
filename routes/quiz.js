@@ -12,7 +12,7 @@ var User = require('../models/user');
 
 router.get('/', function(req, res, next) {
   if (!req.user.currentQuiz) return res.render('quiz/start');
-  Question.findOne({ _id: req.user.currentQuestion }, function(err, question) {
+  Question.findById(req.user.currentQuestion, function(err, question) {
     if (err) next(err);
     Answer.find({ question: question._id }, function(err, answers) {
       if (err) next(err);
@@ -32,10 +32,10 @@ router.post('/', function(req, res, next) {
 
 router.post('/checkAnswer', function(req, res, next) {
   // pop req.user.currentQuestion from req.user.currentQuiz.questions
-  Quiz.findOne({ _id: req.user.currentQuiz }, function(err, currentQuiz) {
+  Quiz.findById(req.user.currentQuiz, function(err, currentQuiz) {
     currentQuiz.questions.remove(req.user.currentQuestion);
     Quiz.checkAnswer(req.user.currentQuestion, req.body.selectedAnswer, function(isCorrect) {
-      Question.findOne({ _id: req.user.currentQuestion }, function(err, question) {
+      Question.findById(req.user.currentQuestion, function(err, question) {
         var ajaxResponseData = { isCorrect: isCorrect, correctAnswer: question.correctAnswer, chosenAnswer: req.body.selectedAnswer };
         // add req.user.currentQuestion to req.user.answeredQuestions, with chosen answer and result
         currentQuiz.answered.push({
