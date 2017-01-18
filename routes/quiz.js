@@ -76,7 +76,7 @@ router.post('/checkAnswer', function(req, res, next) {
 });
 
 router.post('/start', function(req, res, next) {
-  Question.find({ licenseType: req.body.licenseType }).limit(5).exec(function(err, questions) {
+  Question.find({ licenseType: req.body.licenseType }).exec(function(err, questions) {
     new Quiz({
       questions: questions,
       user: req.user._id,
