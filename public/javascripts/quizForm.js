@@ -13,9 +13,28 @@ form.on('submit', function(e) {
     url: '/quiz/checkAnswer',
     data: formData
   }).done(function(response, status) {
-    // response should be whether or not the answer was correct
-    // update DOM accordingly
     console.log(response);
+    if (response.isCorrect) {
+      $('#answer-choices').find('input').each(function(i) {
+        if ($(this).val() === response.chosenAnswer) {
+          $(this).parent().addClass('correct');
+        }
+      });
+    } else {
+      $('#answer-choices').find('input').each(function(i) {
+        if ($(this).val() === response.chosenAnswer) {
+          $(this).parent().addClass('incorrect');
+        }
+
+        if ($(this).val() === response.correctAnswer) {
+          $(this).parent().addClass('correct');
+        }
+      });
+    }
+    // remove submit button
+    $('#submit-button').remove();
+    // replace with 'next question' nav
+    $('#controls').append($('<a href="/quiz">Next question</a>'));
   });
 });
 

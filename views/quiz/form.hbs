@@ -1,11 +1,16 @@
 <form>
   <h1>{{question.body}}</h1>
-  {{#each answers}}
-    <div>
-      <input type="radio" name="selectedAnswer" value="{{this._id}}"/> {{this.body}}
+  <div id="answer-choices">
+    {{#each answers}}
+    <div class="answer-choice">
+      <input type="radio" name="selectedAnswer" value="{{this._id}}"/>
+      {{this.body}}
     </div>
-  {{/each}}
-  <input type="submit" value="Submit Answer"/>
+    {{/each}}
+  </div>
+  <div id="controls">
+    <input id="submit-button" type="submit" value="Submit Answer"/>
+  </div>
 </form>
 
 <script src="javascripts/quizForm.js"></script>

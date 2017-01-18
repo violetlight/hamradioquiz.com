@@ -28,8 +28,6 @@ Quiz.virtual('numTotal').get(function() {
 
 Quiz.statics.checkAnswer = function(questionId, answerId, cb) {
   Question.findOne({ _id: questionId }, function(err, question) {
-    console.log(question.correctAnswer);
-    console.log(answerId);
     cb(question.correctAnswer == answerId);
   });
 };

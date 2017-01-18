@@ -27,45 +27,52 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/', function(req, res, next) {
+});
+
+
+router.post('/checkAnswer', function(req, res, next) {
   // pop req.user.currentQuestion from req.user.currentQuiz.questions
   Quiz.findOne({ _id: req.user.currentQuiz }, function(err, currentQuiz) {
     currentQuiz.questions.remove(req.user.currentQuestion);
     Quiz.checkAnswer(req.user.currentQuestion, req.body.selectedAnswer, function(isCorrect) {
-      // add req.user.currentQuestion to req.user.answeredQuestions, with chosen answer and result
-      currentQuiz.answered.push({
-        q: req.user.currentQuestion,
-        a: req.body.selectedAnswer,
-        answeredCorrectly: isCorrect
-      });
-      currentQuiz.save(function(err, quiz) {
-        if (err) res.send(err);
-        // If quiz is complete...
-        if (currentQuiz.questions.length === 0) {
-          currentQuiz.inProgress = false;
-          currentQuiz.save(function() {
-            asyncReduce(currentQuiz.answered, 0, function(memo, answer, cb) {
-              if (answer.answeredCorrectly) memo += 1;
-              cb(null, memo);
-            }, function(err, result) {
-              req.user.currentQuiz = null;
-              req.user.save(function(err) {
-                return res.render('quiz/results', { numCorrect: result });
+      Question.findOne({ _id: req.user.currentQuestion }, function(err, question) {
+        var ajaxResponseData = { isCorrect: isCorrect, correctAnswer: question.correctAnswer, chosenAnswer: req.body.selectedAnswer };
+        // add req.user.currentQuestion to req.user.answeredQuestions, with chosen answer and result
+        currentQuiz.answered.push({
+          q: req.user.currentQuestion,
+          a: req.body.selectedAnswer,
+          answeredCorrectly: isCorrect
+        });
+        currentQuiz.save(function(err, quiz) {
+          if (err) res.send(err);
+          // If quiz is complete...
+          if (currentQuiz.questions.length === 0) {
+            currentQuiz.inProgress = false;
+            currentQuiz.save(function() {
+              asyncReduce(currentQuiz.answered, 0, function(memo, answer, cb) {
+                if (answer.answeredCorrectly) memo += 1;
+                cb(null, memo);
+              }, function(err, result) {
+                req.user.currentQuiz = null;
+                req.user.save(function(err) {
+                  return res.json(ajaxResponseData);
+                });
               });
             });
-          });
-        } else {
-        // update req.user.currentQuestion to req.user.currentQuiz.questions[0]
-          User.update({ _id: req.user._id }, {$set: { currentQuestion: currentQuiz.questions[0] }},function(err, user) {
-            console.log(isCorrect);
-            // find out what happens here when currentQuiz.questions[0] does not exist anymore
-            // if array is empty, redirect to /quiz/results to show results etc.
-            // otherwise redirect to '/quiz'
-            res.redirect('/quiz');
-          });
-        }
+          } else {
+          // update req.user.currentQuestion to req.user.currentQuiz.questions[0]
+            User.update({ _id: req.user._id }, {$set: { currentQuestion: currentQuiz.questions[0] }},function(err, user) {
+              // find out what happens here when currentQuiz.questions[0] does not exist anymore
+              // if array is empty, redirect to /quiz/results to show results etc.
+              // otherwise redirect to '/quiz'
+              return res.json(ajaxResponseData);
+            });
+          }
+        });
       });
     });
   });
+
 });
 
 router.post('/start', function(req, res, next) {
@@ -76,7 +83,6 @@ router.post('/start', function(req, res, next) {
       inProgress: true
     }).save(function(err, quiz) {
       User.update({ _id: req.user._id }, { $set: { currentQuiz: quiz._id, currentQuestion: quiz.questions[0]._id } }, function(err, user) {
-        console.log(user);
         res.redirect('/quiz');
       });
     });

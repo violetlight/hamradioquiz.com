@@ -5,4 +5,11 @@ body {
 a {
   color: #00B7FF; }
 
+.correct {
+  background-color: #7cc576; }
+
+.incorrect {
+  background-color: #f26d7d;
+  text-decoration: line-through; }
+
 /*# sourceMappingURL=style.css.map */
