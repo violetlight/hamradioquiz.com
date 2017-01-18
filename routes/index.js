@@ -6,8 +6,7 @@ var Question = require('../models/question');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  var ctx = { title: 'Express' };
-  ctx['user'] = req.user;
+  var ctx = { user: req.user };
   return res.render('index', ctx);
 });
 
