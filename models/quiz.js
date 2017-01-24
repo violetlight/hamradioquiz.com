@@ -1,7 +1,9 @@
 var mongoose = require('mongoose')
   , Schema = mongoose.Schema
   , ObjectId = Schema.ObjectId
-  , Question = require('./question');
+  , Question = require('./question')
+  , q = require('q')
+;
 
 
 var Quiz = new Schema({
@@ -26,10 +28,12 @@ Quiz.virtual('numTotal').get(function() {
 });
 
 
-Quiz.statics.checkAnswer = function(questionId, answerId, cb) {
+Quiz.statics.checkAnswer = function(questionId, answerId) {
+  var deferred = q.defer();
   Question.findOne({ _id: questionId }, function(err, question) {
-    cb(question.correctAnswer == answerId);
+    deferred.resolve(question.correctAnswer == answerId);
   });
+  return deferred.promise;
 };
 
 module.exports = mongoose.model('Quiz', Quiz);
