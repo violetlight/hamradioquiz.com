@@ -35,10 +35,6 @@ router.get('/', function(req, res, next) {
 });
 
 
-router.post('/', function(req, res, next) {
-});
-
-
 router.post('/checkAnswer', function(req, res, next) {
   Q.all([
     Quiz.checkAnswer(req.user.currentQuestion, req.body.selectedAnswer),
