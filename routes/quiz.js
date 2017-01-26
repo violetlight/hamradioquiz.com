@@ -57,8 +57,6 @@ router.post('/checkAnswer', function(req, res, next) {
         });
       });
     });
-
-
   });
 });
 
