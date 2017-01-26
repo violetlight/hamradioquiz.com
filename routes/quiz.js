@@ -17,8 +17,12 @@ router.get('/', function(req, res, next) {
   console.log(req.user.currentQuiz);
 
   var ctx = {};
-  Question.findById(req.user.currentQuestion).exec()
+  Quiz.findById(req.user.currentQuiz).exec()
+  .then(function(currentQuiz) {
+    return Question.findById(currentQuiz.questions[0]).exec();
+  })
   .then(function(question) {
+    console.log('question found at top of current quiz pile:', question);
     ctx['question'] = question;
     return Answer.find({ question: question._id }).exec();
   })
@@ -31,25 +35,30 @@ router.get('/', function(req, res, next) {
   .catch(function(err) {
     next(err);
   });
-
 });
 
 
 router.post('/checkAnswer', function(req, res, next) {
-  Q.all([
-    Quiz.checkAnswer(req.user.currentQuestion, req.body.selectedAnswer),
-    Question.findById(req.user.currentQuestion).exec()
-  ]).spread(function(isCorrect, question) {
-    Quiz.findById(req.user.currentQuiz).update({
-      $pull: { 'questions': { _id: req.user.currentQuestion } },
-      $push: { 'answered': { q: req.user.currentQuestion, a: req.body.selectedAnswer, answeredCorrectly: isCorrect } }
-    }).then(function(currentQuiz) {
-      return res.json({
-        isCorrect: isCorrect,
-        correctAnswer: question.correctAnswer,
-        chosenAnswer: req.body.selectedAnswer
+  Quiz.findById(req.user.currentQuiz).exec()
+  .then(function(currentQuiz) {
+    var answeredQuestion = currentQuiz.questions[0];
+    Q.all([
+      Quiz.checkAnswer(answeredQuestion, req.body.selectedAnswer),
+      Question.findById(answeredQuestion).exec()
+    ]).spread(function(isCorrect, question) {
+      currentQuiz.update({
+        $pull: { 'questions': answeredQuestion }, // actually, pull 0th element here instead of by _id.
+        $push: { 'answered': { q: answeredQuestion, a: req.body.selectedAnswer, answeredCorrectly: isCorrect } }
+      }).then(function(dbWriteResult) {
+        return res.json({
+          isCorrect: isCorrect,
+          correctAnswer: question.correctAnswer,
+          chosenAnswer: req.body.selectedAnswer
+        });
       });
     });
+
+
   });
 });
 
@@ -61,7 +70,7 @@ router.post('/start', function(req, res, next) {
       user: req.user._id,
       inProgress: true
     }).save(function(err, quiz) {
-      User.update({ _id: req.user._id }, { $set: { currentQuiz: quiz._id, currentQuestion: quiz.questions[0]._id } }, function(err, user) {
+      User.update({ _id: req.user._id }, { $set: { currentQuiz: quiz._id } }, function(err, user) {
         return res.redirect('/quiz');
       });
     });
