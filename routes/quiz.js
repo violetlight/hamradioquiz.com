@@ -13,28 +13,18 @@ var User = require('../models/user');
 
 
 router.get('/', function(req, res, next) {
-  if (!req.user.currentQuiz) return res.render('quiz/start');
-  console.log(req.user.currentQuiz);
-
   var ctx = {};
+  if (!req.user.currentQuiz) return res.render('quiz/start');
+
   Quiz.findById(req.user.currentQuiz).exec()
-  .then(function(currentQuiz) {
-    return Question.findById(currentQuiz.questions[0]).exec();
-  })
+  .then(function(currentQuiz) { return Question.findById(currentQuiz.questions[0]).exec(); })
   .then(function(question) {
-    console.log('question found at top of current quiz pile:', question);
     ctx['question'] = question;
     return Answer.find({ question: question._id }).exec();
   })
-  .then(function(answers) {
-    ctx['answers'] = answers;
-  })
-  .then(function() {
-    return res.render('quiz/form', ctx);
-  })
-  .catch(function(err) {
-    next(err);
-  });
+  .then(function(answers) { ctx['answers'] = answers; })
+  .then(function() { return res.render('quiz/form', ctx); })
+  .catch(function(err) { next(err); });
 });
 
 
