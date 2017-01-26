@@ -2,6 +2,7 @@ var mongoose = require('mongoose')
   , Schema = mongoose.Schema
   , ObjectId = Schema.ObjectId
   , Question = require('./question')
+  , reduce = require('async/reduce')
   , q = require('q')
 ;
 
@@ -16,15 +17,25 @@ var Quiz = new Schema({
       answeredCorrectly: Boolean
     },
   ],
-  inProgress: Boolean,
 });
 
 Quiz.virtual('numRemaining').get(function() {
   return ((this.questions.length + this.answered.length) - this.answered.length);
 });
 
+Quiz.methods.numCorrect = function(callback) {
+  reduce(this.answered, 0, function(memo, answer, cb) {
+    if (answer['answeredCorrectly']) memo += 1;
+    cb(null, memo);
+  }, callback);
+};
+
 Quiz.virtual('numTotal').get(function() {
   return (this.questions.length + this.answered.length);
+});
+
+Quiz.virtual('isComplete').get(function() {
+  return (this.questions.length === 0);
 });
 
 

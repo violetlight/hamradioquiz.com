@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
   Quiz.findById(req.user.currentQuiz).exec()
   .then(function(currentQuiz) {
     if (currentQuiz.questions.length === 0) {
-      return res.send('end of quiz, no more questions, whatever the shit is over');
+      return res.redirect('/quiz/results');
     } else {
       ctx['numQuestionsTotal'] = currentQuiz.numTotal;
       ctx['numCurrentQuestion'] = currentQuiz.answered.length + 1;
@@ -67,7 +67,6 @@ router.post('/start', function(req, res, next) {
     new Quiz({
       questions: questions,
       user: req.user._id,
-      inProgress: true
     }).save(function(err, quiz) {
       User.update({ _id: req.user._id }, { $set: { currentQuiz: quiz._id } }, function(err, user) {
         return res.redirect('/quiz');
@@ -77,6 +76,30 @@ router.post('/start', function(req, res, next) {
   .catch(function(err) {
     next(err);
   });
+});
+
+
+router.get('/results', function(req, res, next) {
+  var ctx = {};
+  if (!req.user.currentQuiz) return res.redirect('/quiz');
+  Q.all([
+    Quiz.findById(req.user.currentQuiz).exec(),
+    User.findById(req.user._id).exec()
+  ])
+  .spread(function(currentQuiz, user) {
+    if (!currentQuiz.isComplete) return res.redirect('/quiz');
+    user.update({ $set: { 'currentQuiz': null } })
+    .then(function(dbWriteResult) {
+      // if (dbWriteResult.err) or whatever
+      currentQuiz.numCorrect(function(err, result) {
+        console.log('numCorrect:',result);
+        ctx['quiz'] = currentQuiz;
+        ctx['numCorrect'] = result;
+        res.render('quiz/results', ctx);
+      });
+    })
+  });
+
 });
 
 
