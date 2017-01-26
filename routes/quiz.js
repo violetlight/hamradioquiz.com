@@ -17,21 +17,22 @@ router.get('/', function(req, res, next) {
   if (!req.user.currentQuiz) return res.render('quiz/start');
 
   Quiz.findById(req.user.currentQuiz).exec()
-  // check in here if currentQuiz.questions.length === 0 and if it does, end this shit
-  // probably set a var on the session and redirect to a route that checks for that var
-  // redirects if it doesn't exist and finishes the quiz if it does
   .then(function(currentQuiz) {
-    ctx['numQuestionsTotal'] = currentQuiz.numTotal;
-    ctx['numCurrentQuestion'] = currentQuiz.answered.length + 1;
-    return Question.findById(currentQuiz.questions[0]).exec();
+    if (currentQuiz.questions.length === 0) {
+      return res.send('end of quiz, no more questions, whatever the shit is over');
+    } else {
+      ctx['numQuestionsTotal'] = currentQuiz.numTotal;
+      ctx['numCurrentQuestion'] = currentQuiz.answered.length + 1;
+      return Question.findById(currentQuiz.questions[0]).exec()
+        .then(function(question) {
+          ctx['question'] = question;
+          return Answer.find({ question: question._id }).exec();
+        })
+        .then(function(answers) { ctx['answers'] = answers; })
+        .then(function() { return res.render('quiz/form', ctx); })
+        .catch(function(err) { next(err); });
+    }
   })
-  .then(function(question) {
-    ctx['question'] = question;
-    return Answer.find({ question: question._id }).exec();
-  })
-  .then(function(answers) { ctx['answers'] = answers; })
-  .then(function() { return res.render('quiz/form', ctx); })
-  .catch(function(err) { next(err); });
 });
 
 
@@ -59,7 +60,7 @@ router.post('/checkAnswer', function(req, res, next) {
 
 
 router.post('/start', function(req, res, next) {
-  Question.find({ licenseType: req.body.licenseType }).exec(function(err, questions) {
+  Question.find({ licenseType: req.body.licenseType }).limit(3).exec(function(err, questions) {
     new Quiz({
       questions: questions,
       user: req.user._id,
