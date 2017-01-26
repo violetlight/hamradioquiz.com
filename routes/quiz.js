@@ -47,7 +47,7 @@ router.post('/checkAnswer', function(req, res, next) {
       Question.findById(answeredQuestion).exec()
     ]).spread(function(isCorrect, question) {
       currentQuiz.update({
-        $pull: { 'questions': answeredQuestion }, // actually, pull 0th element here instead of by _id.
+        $pull: { 'questions': answeredQuestion },
         $push: { 'answered': { q: answeredQuestion, a: req.body.selectedAnswer, answeredCorrectly: isCorrect } }
       }).then(function(dbWriteResult) {
         return res.json({
@@ -73,7 +73,6 @@ router.post('/start', function(req, res, next) {
       });
     });
   });
-
 });
 
 
