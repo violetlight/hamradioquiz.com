@@ -55,6 +55,9 @@ router.post('/checkAnswer', function(req, res, next) {
         });
       });
     });
+  })
+  .catch(function(err) {
+    next(err);
   });
 });
 
@@ -70,6 +73,9 @@ router.post('/start', function(req, res, next) {
         return res.redirect('/quiz');
       });
     });
+  })
+  .catch(function(err) {
+    next(err);
   });
 });
 
