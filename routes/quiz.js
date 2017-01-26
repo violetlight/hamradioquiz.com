@@ -17,7 +17,14 @@ router.get('/', function(req, res, next) {
   if (!req.user.currentQuiz) return res.render('quiz/start');
 
   Quiz.findById(req.user.currentQuiz).exec()
-  .then(function(currentQuiz) { return Question.findById(currentQuiz.questions[0]).exec(); })
+  // check in here if currentQuiz.questions.length === 0 and if it does, end this shit
+  // probably set a var on the session and redirect to a route that checks for that var
+  // redirects if it doesn't exist and finishes the quiz if it does
+  .then(function(currentQuiz) {
+    ctx['numQuestionsTotal'] = currentQuiz.numTotal;
+    ctx['numCurrentQuestion'] = currentQuiz.answered.length + 1;
+    return Question.findById(currentQuiz.questions[0]).exec();
+  })
   .then(function(question) {
     ctx['question'] = question;
     return Answer.find({ question: question._id }).exec();
