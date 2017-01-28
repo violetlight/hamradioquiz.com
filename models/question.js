@@ -10,7 +10,7 @@ var questionSchema = new Schema({
   section: String,
   subSection: String,
   fccSection: String,
-  licenseType: String
+  licenseType: { type: String, enum: ['technician', 'general', 'amateur-extra'] }
 });
 
 module.exports = mongoose.model('Question', questionSchema);

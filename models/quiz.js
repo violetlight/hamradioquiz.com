@@ -3,12 +3,13 @@ var mongoose = require('mongoose')
   , ObjectId = Schema.ObjectId
   , Question = require('./question')
   , reduce = require('async/reduce')
-  , q = require('q')
+  , Q = require('q')
 ;
 
 
 var Quiz = new Schema({
   user: { type: ObjectId, ref: 'User' },
+  licenseType: { type: String, enum: ['technician', 'general', 'amateur-extra'] },
   questions: [{ type: ObjectId, ref: 'Question' }],
   answered: [
     {
@@ -23,11 +24,28 @@ Quiz.virtual('numRemaining').get(function() {
   return ((this.questions.length + this.answered.length) - this.answered.length);
 });
 
-Quiz.methods.numCorrect = function(callback) {
+
+Quiz.methods.numCorrect = function() {
+  var deferred = q.defer();
   reduce(this.answered, 0, function(memo, answer, cb) {
     if (answer['answeredCorrectly']) memo += 1;
     cb(null, memo);
-  }, callback);
+  }, function(err, result) {
+    deferred.resolve(result);
+  });
+  return deferred.promise;
+};
+
+Quiz.methods.getResults = function() {
+  Q.all([
+    this.numCorrect(),
+  ]).spread(function(numCorrect, ff) {
+    return ''
+  });
+
+  // answered correctly
+  // total questions
+
 };
 
 Quiz.virtual('numTotal').get(function() {
@@ -40,7 +58,7 @@ Quiz.virtual('isComplete').get(function() {
 
 
 Quiz.statics.checkAnswer = function(questionId, answerId) {
-  var deferred = q.defer();
+  var deferred = Q.defer();
   Question.findOne({ _id: questionId }, function(err, question) {
     deferred.resolve(question.correctAnswer == answerId);
   });

@@ -91,12 +91,8 @@ router.get('/results', function(req, res, next) {
     user.update({ $set: { 'currentQuiz': null } })
     .then(function(dbWriteResult) {
       // if (dbWriteResult.err) or whatever
-      currentQuiz.numCorrect(function(err, result) {
-        console.log('numCorrect:',result);
-        ctx['quiz'] = currentQuiz;
-        ctx['numCorrect'] = result;
-        res.render('quiz/results', ctx);
-      });
+      ctx['quiz'] = currentQuiz;
+      res.render('quiz/results', ctx);
     })
   });
 
