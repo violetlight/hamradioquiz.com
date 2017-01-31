@@ -1,13 +1,16 @@
-{{#if user}}
-  <h1>Hello, {{user.username}}</h1>
-{{/if}}
-
-<ul>
+<div class="question-form">
   {{#if user}}
-    <li><a href="/users/logout">Log Out</a></li>
-  {{else}}
-    <li><a href="/users/login">Log In</a></li>
-    <li><a href="/users/sign-up">Sign Up</a></li>
+    <h1>Hello, {{user.username}}</h1>
   {{/if}}
-  <li><a href="/quiz">Quiz</a></li>
-</ul>
+
+  <ul>
+    {{#if user}}
+      <li><a href="/users/logout">Log Out</a></li>
+    {{else}}
+      <li><a href="/users/login">Log In</a></li>
+      <li><a href="/users/sign-up">Sign Up</a></li>
+    {{/if}}
+    <li><a href="/quiz">Quiz</a></li>
+  </ul>
+</div>
+

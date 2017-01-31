@@ -1,11 +1,17 @@
-<form action="/quiz/start" method="post">
-  <label>Choose license type:
-    <select name="licenseType">
-      <option value="technician">Technician</option>
-      <option value="general">General</option>
-      <option value="amateur-extra">Amateur Extra</option>
-    </select>
-  </label>
-  <input type="submit" value="Start Quiz"/>
-</form>
+<div class="question-form">
+  <form action="/quiz/start" method="post">
+
+    <div>
+      <label>Choose license type:
+        <select name="licenseType">
+          <option value="technician">Technician</option>
+          <option value="general">General</option>
+          <option value="amateur-extra">Amateur Extra</option>
+        </select>
+      </label>
+    </div>
+
+    <input type="submit" value="Start Quiz"/>
+  </form>
+</div>
 

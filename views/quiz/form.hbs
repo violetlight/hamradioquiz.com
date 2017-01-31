@@ -1,21 +1,30 @@
-<div class="page-number-display">
-  <span class="pages-current">{{numCurrentQuestion}}</span> of {{numQuestionsTotal}}
-</div>
 
-<form>
-  <h1>{{question.body}}</h1>
-  <div id="answer-choices">
-    {{#each answers}}
-    <div class="answer-choice">
-      <input type="radio" name="selectedAnswer" value="{{this._id}}"/>
-      {{this.body}}
+<div class="question-form">
+
+  <div class="page-number-display">
+    Question number {{numCurrentQuestion}} of {{numQuestionsTotal}}
+  </div>
+
+  <form>
+    <div class="question">
+      <h2>{{question.body}}</h2>
     </div>
-    {{/each}}
-  </div>
-  <div id="controls">
-    <input id="submit-button" type="submit" value="Submit Answer"/>
-  </div>
-</form>
+    <div id="answer-choices">
+      {{#each answers}}
+      <div class="answer-outer-container">
+        <div class="answer">
+          <input type="radio" name="selectedAnswer" value="{{this._id}}"/>
+          {{this.body}}
+        </div>
+      </div>
+      {{/each}}
+    </div>
+    <div id="controls">
+      <input id="submit-button" type="submit" value="Submit Answer"/>
+    </div>
+  </form>
+
+</div>
 
 <script src="javascripts/quizForm.js"></script>
 
