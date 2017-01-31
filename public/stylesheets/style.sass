@@ -1,22 +1,43 @@
+$text-color: #323232
+$navbar-color: #121212
+$off-white: #fefefe
+
+$green: #7cc576
+$red: #f26d7d
+
+$box-shadow-color: rgba(0, 0, 0, 0.2)
+
+$bg-gradient-1: #403b4a
+$bg-gradient-2: #e7e8bb
+
 html
   height: 100%
 
 body
-  padding-top: 1em
+  padding: 0
+  margin: 0
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
-  background: linear-gradient( 120deg, #403B4A, #E7E9BB ) no-repeat
-  color: #323232
+  background: linear-gradient( 120deg, $bg-gradient-1, $bg-gradient-2 ) no-repeat
+  color: $text-color
+
+nav
+  background-color: $navbar-color
+  margin-bottom: 2em
+  box-shadow: 0 0 .2em .2em $box-shadow-color
+
+nav ul
+  margin: 0
 
 a
   color: #00B7FF
 
 .question-form
-  background-color: #fefefe
+  background-color: $off-white
   margin: 0 auto
   width: 50vw
   padding: 2em 4em 2em 4em
   border-radius: 1em
-  box-shadow: 0 .4em .2em .2em rgba(0, 0, 0, 0.2)
+  box-shadow: 0 .4em .2em .2em $box-shadow-color
 
 .question-form .question
   padding-bottom: .5em
@@ -33,10 +54,10 @@ a
   padding-bottom: .5em
 
 .correct
-  background-color: #7cc576
+  background-color: $green
 
 .incorrect
-  background-color: #f26d7d
+  background-color: $red
   text-decoration: line-through
 
 .page-number-display
