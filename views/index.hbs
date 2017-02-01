@@ -1,32 +1,34 @@
 <div class="question-form">
   {{#if user}}
     <h1>Hello, {{user.username}}</h1>
-  {{/if}}
 
-
-  {{#if user.currentQuiz}}
-    <form action="/quiz">
-      <input type="submit" value="Resume Quiz">
-    </form>
-  {{else}}
-    <div class="start-quiz-controls">
-      <form action="/" method="post">
-        <h2>Start the quiz!</h2>
-        <div>
-          <label>Choose license type:
-            <select name="licenseType">
-              <option value="technician">Technician</option>
-              <option value="general">General</option>
-              <option value="amateur-extra">Amateur Extra</option>
-            </select>
-          </label>
-        </div>
-
-        <input type="submit" value="Start Quiz"/>
+    {{#if user.currentQuiz}}
+      <form action="/quiz">
+        <input type="submit" value="Resume Quiz">
       </form>
-    </div>
-  {{/if}}
+    {{else}}
+      <div class="start-quiz-controls">
+        <form action="/" method="post">
+          <h2>Start the quiz!</h2>
+          <div>
+            <label>Choose license type:
+              <select name="licenseType">
+                <option value="technician">Technician</option>
+                <option value="general">General</option>
+                <option value="amateur-extra">Amateur Extra</option>
+              </select>
+            </label>
+          </div>
 
+          <input type="submit" value="Start Quiz"/>
+        </form>
+      </div>
+    {{/if}}
+
+  {{else}}
+  <p>Please <a href="/users/signup">sign up</a> and/or <a href="/users/login">Log in</a> before taking the quiz.</p>
+
+  {{/if}}
 
 </div>
 
