@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/', function(req, res, next) {
-  Question.find({ licenseType: req.body.licenseType }).limit(3).exec(function(err, questions) {
+  Question.find({ licenseType: req.body.licenseType }).exec(function(err, questions) {
     new Quiz({
       questions: questions,
       user: req.user._id,
