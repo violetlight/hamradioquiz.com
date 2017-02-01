@@ -40,12 +40,6 @@ router.post('/sign-up', function(req, res, next) {
   });
 });
 
-router.get('/u/:userName', function(req, res, next) {
-  var ctx = {user: req.user};
-  return res.render('users/home', ctx);
-});
-
-
 
 module.exports = router;
 
