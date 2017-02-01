@@ -13,7 +13,7 @@ var User = require('../models/user');
 
 
 router.get('/', function(req, res, next) {
-  var ctx = {};
+  var ctx = { user: req.user };
   if (!req.user.currentQuiz) return res.render('quiz/start');
 
   Quiz.findById(req.user.currentQuiz).exec()
@@ -29,7 +29,9 @@ router.get('/', function(req, res, next) {
           return Answer.find({ question: question._id }).exec();
         })
         .then(function(answers) { ctx['answers'] = answers; })
-        .then(function() { return res.render('quiz/form', ctx); })
+        .then(function() {
+          return res.render('quiz/form', ctx);
+        })
         .catch(function(err) { next(err); });
     }
   })
