@@ -37,7 +37,7 @@ nav ul li a:hover {
 a {
   color: #00B7FF; }
 
-.question-form {
+.content-box {
   background-color: #fefefe;
   margin: 0 auto;
   width: 50vw;
@@ -45,13 +45,16 @@ a {
   border-radius: 1em;
   box-shadow: 0 0.4em 0.2em 0.2em rgba(0, 0, 0, 0.2); }
 
-.question-form .question {
+.content-box .question {
   padding-bottom: .5em;
   border-bottom: 2px dotted #aaa;
   margin-bottom: 1em; }
 
-.question-form #submit-answer {
+.content-box #submit-answer {
   float: right; }
+
+.text-center {
+  text-align: center; }
 
 .start-quiz-controls {
   text-align: center; }

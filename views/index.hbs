@@ -1,9 +1,10 @@
 <div class="content-box">
-  <h1>Amateur Radio License Exam</h1>
+  <h1 class="text-center">Amateur Radio License Exam</h1>
   {{#if user}}
 
     {{#if user.currentQuiz}}
-      <form action="/quiz">
+      <form class="text-center" action="/quiz">
+        <p>You currently have a quiz in progress.</p>
         <input type="submit" value="Resume Quiz">
       </form>
     {{else}}
@@ -26,7 +27,7 @@
     {{/if}}
 
   {{else}}
-  <p>Please <a href="/users/signup">sign up</a> and/or <a href="/users/login">Log in</a> before taking the quiz.</p>
+  <p class="text-center">Please <a href="/users/signup">sign up</a> and/or <a href="/users/login">log in</a> before taking the quiz.</p>
 
   {{/if}}
 
