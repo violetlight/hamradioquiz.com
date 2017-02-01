@@ -64,7 +64,7 @@ router.post('/checkAnswer', function(req, res, next) {
 
 
 router.get('/results', function(req, res, next) {
-  var ctx = {};
+  var ctx = { user: req.user };
   if (!req.user.currentQuiz) return res.redirect('/quiz');
   Q.all([
     Quiz.findById(req.user.currentQuiz).exec(),
