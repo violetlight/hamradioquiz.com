@@ -20,7 +20,7 @@ nav ul {
   overflow: hidden; }
 
 nav ul li {
-  float: left; }
+  float: right; }
 
 nav ul li a {
   color: #fefefe;
@@ -77,6 +77,10 @@ a {
 
 .page-number-display {
   float: right;
+  font-size: .8em; }
+
+.section-display {
+  float: left;
   font-size: .8em; }
 
 /*# sourceMappingURL=style.css.map */

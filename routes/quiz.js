@@ -29,6 +29,7 @@ router.get('/', function(req, res, next) {
         })
         .then(function(answers) { ctx['answers'] = answers; })
         .then(function() {
+          console.log(ctx['question']);
           return res.render('quiz/form', ctx);
         })
         .catch(function(err) { next(err); });
