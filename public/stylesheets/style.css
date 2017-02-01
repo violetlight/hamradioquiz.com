@@ -4,7 +4,7 @@ html {
 body {
   padding: 0;
   margin: 0;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px Helvetica, sans-serif;
   background: linear-gradient(120deg, #403b4a, #e7e8bb) no-repeat;
   color: #323232; }
 
@@ -14,7 +14,25 @@ nav {
   box-shadow: 0 0 0.2em 0.2em rgba(0, 0, 0, 0.2); }
 
 nav ul {
-  margin: 0; }
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  overflow: hidden; }
+
+nav ul li {
+  float: left; }
+
+nav ul li a {
+  color: #fefefe;
+  display: inline-block;
+  text-align: center;
+  padding: .2em .4em;
+  text-decoration: none;
+  font-size: 1.2em;
+  transition: 0.3s; }
+
+nav ul li a:hover {
+  color: #f26d7d; }
 
 a {
   color: #00B7FF; }
@@ -33,6 +51,15 @@ a {
   margin-bottom: 1em; }
 
 .question-form #submit-button {
+  float: right; }
+
+.start-quiz-controls {
+  text-align: center; }
+
+.start-quiz-controls form {
+  margin: auto; }
+
+.start-quiz-controls form input[type=submit] {
   float: right; }
 
 #answer-choices {

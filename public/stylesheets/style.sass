@@ -10,13 +10,16 @@ $box-shadow-color: rgba(0, 0, 0, 0.2)
 $bg-gradient-1: #403b4a
 $bg-gradient-2: #e7e8bb
 
+
+$body-font-stack: 14px Helvetica, sans-serif
+
 html
   height: 100%
 
 body
   padding: 0
   margin: 0
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
+  font: $body-font-stack
   background: linear-gradient( 120deg, $bg-gradient-1, $bg-gradient-2 ) no-repeat
   color: $text-color
 
@@ -27,6 +30,24 @@ nav
 
 nav ul
   margin: 0
+  padding: 0
+  list-style-type: none
+  overflow: hidden
+
+nav ul li
+  float: left
+
+nav ul li a
+  color: $off-white
+  display: inline-block
+  text-align: center
+  padding: .2em .4em
+  text-decoration: none
+  font-size: 1.2em
+  transition: 0.3s
+
+nav ul li a:hover
+  color: $red
 
 a
   color: #00B7FF
@@ -45,6 +66,16 @@ a
   margin-bottom: 1em
 
 .question-form #submit-button
+  float: right
+
+
+.start-quiz-controls
+  text-align: center
+
+.start-quiz-controls form
+  margin: auto
+
+.start-quiz-controls form input[type=submit]
   float: right
 
 #answer-choices

@@ -3,14 +3,30 @@
     <h1>Hello, {{user.username}}</h1>
   {{/if}}
 
-  <ul>
-    {{#if user}}
-      <li><a href="/users/logout">Log Out</a></li>
-    {{else}}
-      <li><a href="/users/login">Log In</a></li>
-      <li><a href="/users/sign-up">Sign Up</a></li>
-    {{/if}}
-    <li><a href="/quiz">Quiz</a></li>
-  </ul>
+
+  {{#if user.currentQuiz}}
+    <form action="/quiz">
+      <input type="submit" value="Resume Quiz">
+    </form>
+  {{else}}
+    <div class="start-quiz-controls">
+      <form action="/" method="post">
+        <h2>Start the quiz!</h2>
+        <div>
+          <label>Choose license type:
+            <select name="licenseType">
+              <option value="technician">Technician</option>
+              <option value="general">General</option>
+              <option value="amateur-extra">Amateur Extra</option>
+            </select>
+          </label>
+        </div>
+
+        <input type="submit" value="Start Quiz"/>
+      </form>
+    </div>
+  {{/if}}
+
+
 </div>
 

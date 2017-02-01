@@ -14,7 +14,6 @@ var User = require('../models/user');
 
 router.get('/', function(req, res, next) {
   var ctx = { user: req.user };
-  if (!req.user.currentQuiz) return res.render('quiz/start');
 
   Quiz.findById(req.user.currentQuiz).exec()
   .then(function(currentQuiz) {
@@ -55,23 +54,6 @@ router.post('/checkAnswer', function(req, res, next) {
           correctAnswer: question.correctAnswer,
           chosenAnswer: req.body.selectedAnswer
         });
-      });
-    });
-  })
-  .catch(function(err) {
-    next(err);
-  });
-});
-
-
-router.post('/start', function(req, res, next) {
-  Question.find({ licenseType: req.body.licenseType }).limit(3).exec(function(err, questions) {
-    new Quiz({
-      questions: questions,
-      user: req.user._id,
-    }).save(function(err, quiz) {
-      User.update({ _id: req.user._id }, { $set: { currentQuiz: quiz._id } }, function(err, user) {
-        return res.redirect('/quiz');
       });
     });
   })
