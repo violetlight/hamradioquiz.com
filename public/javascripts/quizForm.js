@@ -1,7 +1,14 @@
-$('#submit-answer')
+$('#submit-answer').prop('disabled', true);
 
 
 var form = $('form');
+
+
+$('form :radio').click(function() {
+  console.log('clickakkkaka');
+  $('#submit-answer').prop('disabled', false);
+});
+
 
 form.on('submit', function(e) {
   e.preventDefault();
@@ -34,7 +41,7 @@ form.on('submit', function(e) {
       });
     }
     // remove submit button
-    $('#submit-button').remove();
+    $('#submit-answer').remove();
     // replace with 'next question' nav
     $('#controls').append($('<a href="/quiz">Next question</a>'));
   });
