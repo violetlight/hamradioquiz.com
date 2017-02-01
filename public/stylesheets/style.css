@@ -4,7 +4,7 @@ html {
 body {
   padding: 0;
   margin: 0;
-  font: 14px Helvetica, sans-serif;
+  font: 14px "Helvetica", sans-serif;
   background: linear-gradient(120deg, #403b4a, #e7e8bb) no-repeat;
   color: #323232; }
 
