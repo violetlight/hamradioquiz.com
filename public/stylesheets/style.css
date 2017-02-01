@@ -9,6 +9,7 @@ body {
   color: #323232; }
 
 nav {
+  padding: .4em 0;
   background-color: #121212;
   margin-bottom: 2em;
   box-shadow: 0 0 0.2em 0.2em rgba(0, 0, 0, 0.2); }
