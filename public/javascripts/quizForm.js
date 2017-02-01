@@ -5,7 +5,6 @@ var form = $('form');
 
 
 $('form :radio').click(function() {
-  console.log('clickakkkaka');
   $('#submit-answer').prop('disabled', false);
 });
 
