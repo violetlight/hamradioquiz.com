@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 import json
 
-f = open('../../data/questions.json', 'r')
+f = open('../public/questions.json', 'r')
 data = json.load(f)
 f.close()
 
