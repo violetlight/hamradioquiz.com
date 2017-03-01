@@ -21,7 +21,7 @@ router.post('/login', function(req, res, next) {
     if (!user) return res.redirect('/users/login');
     req.logIn(user, function(err) {
       if (err) return next(err);
-      return res.redirect('/');
+      return res.redirect('/admin');
     });
   })(req, res, next);
 });
