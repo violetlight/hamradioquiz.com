@@ -80,6 +80,11 @@ router.get('/results', function(req, res, next) {
     .then(function(dbWriteResult) {
       // if (dbWriteResult.err) or whatever
       ctx['quiz'] = currentQuiz;
+      ctx['numCorrect'] = currentQuiz.answered.reduce(function(acc, val) {
+        if (val.answeredCorrectly) acc += 1;
+        return acc;
+      }, 0);
+      ctx['numQuestions'] = currentQuiz.answered.length;
       res.render('quiz/results', ctx);
     })
   });

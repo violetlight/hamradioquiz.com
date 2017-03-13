@@ -1,5 +1,10 @@
-<pre>{{quiz}}</pre>
-<pre>{{numCorrect}}</pre>
-<a href="/">Home</a>
+<div class="content-box">
+  <h3>Number of questions answered correctly:</h3>
+  <div id="progressbar"></div>
+  <span id="numcorrect">{{numCorrect}}</span> out of <span id="numquestions">{{numQuestions}}</span>
+  <div class="page-number-display">
+    <a href="/">Home</a>
+  </div>
+</div>
 
-
+<script src="/javascripts/results.js"></script>
