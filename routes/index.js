@@ -13,7 +13,11 @@ router.get('/', function(req, res, next) {
 
 // POST to start quiz
 router.post('/', function(req, res, next) {
-  Question.find({ licenseType: req.body.licenseType }).exec(function(err, questions) {
+  var limit;
+  if (req.body.numQuestions !== 'all') {
+    limit = parseInt(req.body.numQuestions);
+  }
+  Question.find({ licenseType: req.body.licenseType }).limit(limit).exec(function(err, questions) {
     new Quiz({
       questions: questions,
       user: req.user._id,
