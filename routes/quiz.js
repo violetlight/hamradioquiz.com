@@ -12,6 +12,7 @@ var Quiz = require('../models/quiz');
 var User = require('../models/user');
 
 
+// Automatically handles next question or finishing quiz with each subsequent GET
 router.get('/', function(req, res, next) {
   var ctx = { user: req.user };
 
@@ -38,6 +39,7 @@ router.get('/', function(req, res, next) {
 });
 
 
+// AJAX POST to check if supplied answer was correct
 router.post('/checkAnswer', function(req, res, next) {
   Quiz.findById(req.user.currentQuiz).exec()
   .then(function(currentQuiz) {
@@ -64,6 +66,7 @@ router.post('/checkAnswer', function(req, res, next) {
 });
 
 
+// Show quiz results
 router.get('/results', function(req, res, next) {
   var ctx = { user: req.user };
   if (!req.user.currentQuiz) return res.redirect('/quiz');

@@ -6,13 +6,12 @@ var Question = require('../models/question');
 var Quiz = require('../models/quiz');
 var User = require('../models/user');
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
   var ctx = { user: req.user };
   return res.render('index', ctx);
 });
 
-
+// POST to start quiz
 router.post('/', function(req, res, next) {
   Question.find({ licenseType: req.body.licenseType }).exec(function(err, questions) {
     new Quiz({
