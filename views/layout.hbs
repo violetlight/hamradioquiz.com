@@ -11,6 +11,7 @@
       <ul>
         {{#if user}}
           <li><a href="/users/logout">Log out</a></li>
+          <li>Welcome, {{user.username}}</li>
         {{else}}
           <li><a href="/users/login">Log In</a></li>
           <li><a href="/users/sign-up">Sign Up</a></li>
