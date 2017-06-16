@@ -36,18 +36,6 @@ Quiz.methods.numCorrect = function() {
   return deferred.promise;
 };
 
-Quiz.methods.getResults = function() {
-  Q.all([
-    this.numCorrect(),
-  ]).spread(function(numCorrect, ff) {
-    return ''
-  });
-
-  // answered correctly
-  // total questions
-
-};
-
 Quiz.virtual('numTotal').get(function() {
   return (this.questions.length + this.answered.length);
 });
