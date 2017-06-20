@@ -28,9 +28,19 @@ router.get('/', function(req, res, next) {
           ctx['question'] = question;
           return Answer.find({ question: question._id }).exec();
         })
-        .then(function(answers) { ctx['answers'] = answers; })
+        .then(function(answers) {
+          answers.sort(function(a, b) {
+            if (a.letter < b.letter) {
+              return -1;
+            }
+            if (b.letter < a.letter) {
+              return 1;
+            }
+            return 0;
+          });
+          ctx['answers'] = answers;
+        })
         .then(function() {
-          console.log(ctx['question']);
           return res.render('quiz/form', ctx);
         })
         .catch(function(err) { next(err); });
